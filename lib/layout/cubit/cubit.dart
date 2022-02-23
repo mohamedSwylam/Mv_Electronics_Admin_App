@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mv_admin_app/layout/cubit/states.dart';
@@ -30,6 +31,23 @@ class AppCubit extends Cubit<AppStates> {
         selectorScreen = SubCategoryScreen();
         emit(ScreenSelectorState());
         break;
+    }
+  }
+
+  //// upload image
+  dynamic image;
+  String? fileName;
+
+  pickImage() async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.image, allowMultiple: false);
+    if (result != null) {
+      image = result.files.first.bytes;
+      fileName = result.files.first.name;
+      emit(PickedImageSuccessState());
+    } else {
+      //Failed to pick image. or user cancelled
+      print('Cancelled Or Failed');
     }
   }
 }

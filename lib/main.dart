@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:mv_admin_app/shared/bloc_observer.dart';
 import 'package:mv_admin_app/shared/network/local/cache_helper.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget
               builder: (context, orientation, deviceType) {
                 return MaterialApp(
                   title: 'admin App',
+                  builder: EasyLoading.init(),
                   theme: ThemeData(
                     primaryColor: Colors.indigo,
                     primarySwatch: Colors.indigo,

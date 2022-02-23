@@ -42,13 +42,13 @@ class CategoryScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(color: Colors.grey.shade800),
                       ),
-                      child: Center(child: Text('Category Image')),
+                      child: Center(child: cubit.image==null ?Text('Category Image'):Image.memory(cubit.image)),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     ElevatedButton(
-                        child: Text('Uptoad Image'), onPressed: () {}),
+                        child: Text('Uptoad Image'), onPressed: cubit.pickImage),
                   ],
                 ),
                 SizedBox(
