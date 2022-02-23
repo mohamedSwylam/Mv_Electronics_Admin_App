@@ -58,6 +58,7 @@ class CategoryScreen extends StatelessWidget {
                   width: 200,
                   child: Center(
                     child: TextField(
+                      controller: cubit.catName,
                       decoration: InputDecoration(
                           label: Text('Enter Catergory Name'),
                           contentPadding: EdgeInsets.zero),
@@ -84,7 +85,7 @@ class CategoryScreen extends StatelessWidget {
                   width: 10,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed:cubit.saveImageToDb,
                   child: Text(
                     '  Save  ',
                   ),
