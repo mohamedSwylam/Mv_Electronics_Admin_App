@@ -100,5 +100,23 @@
       loadMainDartJs();
     }
   </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="main.dart.js" type="application/javascript"></script>
+  <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDYK_JsEE_Mr_FeN1vi5GLlvQ1WWwd1NDo",
+  authDomain: "moza-store.firebaseapp.com",
+  projectId: "moza-store",
+  storageBucket: "moza-store.appspot.com",
+  messagingSenderId: "843555294764",
+  appId: "1:843555294764:web:8665c2efc15b1784ea4b89",
+  measurementId: "G-PKP9VT7CRW"
+};
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
 </body>
 </html>
