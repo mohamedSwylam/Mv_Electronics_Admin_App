@@ -11,16 +11,27 @@ class MainCategoryScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = AppCubit.get(context);
-        return Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.all(10),
-          child: const Text(
-            'MainCategoryScreen',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 36,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Divider(
+              color: Colors.grey,
             ),
-          ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.all(10),
+              child: const Text(
+                'MainCategoryScreen',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 36,
+                ),
+              ),
+            ),
+            const Divider(
+              color: Colors.grey,
+            ),
+          ],
         );
       },
     );
