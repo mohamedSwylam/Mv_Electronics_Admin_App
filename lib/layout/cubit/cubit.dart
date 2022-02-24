@@ -42,7 +42,8 @@ class AppCubit extends Cubit<AppStates> {
   dynamic image;
   String? fileName;
   String? url;
- final FirebaseService service=FirebaseService();
+  final formKey = GlobalKey<FormState>();
+  final FirebaseService service=FirebaseService();
  final TextEditingController catName =TextEditingController();
   pickImage() async {
     FilePickerResult? result = await FilePicker.platform
@@ -66,7 +67,7 @@ class AppCubit extends Cubit<AppStates> {
     var ref = firebase_storage.FirebaseStorage.instance
         .ref('categoryImage/$fileName');
     try {
-      await ref.putFile(image); //now image will upload to firebase storage.
+      await ref.putData(image); //now image will upload to firebase storage.
       //now need to get the download link of that image to save in fireStore
       String downloadURL = await ref.getDownloadURL().then((value) {
         if (value.isNotEmpty) {

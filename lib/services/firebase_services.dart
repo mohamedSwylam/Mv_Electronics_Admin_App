@@ -5,6 +5,6 @@ class FirebaseService {
       FirebaseFirestore.instance.collection('categories');
 
   Future<void> saveCategory(Map<String, dynamic> data) {
-    return categories.doc(data['name']).set(data);
+    return categories.doc(data['catName']).set(data);
   }
 }
