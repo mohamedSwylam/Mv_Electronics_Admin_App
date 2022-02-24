@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mime_type/mime_type.dart';
 import 'package:mv_admin_app/layout/cubit/states.dart';
 import 'package:mv_admin_app/modules/category_screen/category_screen.dart';
 import 'package:mv_admin_app/modules/dashboard_screen/dashboard_screen.dart';
@@ -10,6 +11,7 @@ import 'package:mv_admin_app/modules/main_category_screen/main_category_screen.d
 import 'package:mv_admin_app/modules/sub_category_screen/sub_category_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:mv_admin_app/services/firebase_services.dart';
+import 'package:path/path.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -67,14 +69,17 @@ class AppCubit extends Cubit<AppStates> {
     var ref = firebase_storage.FirebaseStorage.instance
         .ref('categoryImage/$fileName');
     try {
+      String? mimiType = mime (basename (fileName!),);
+      var metaData = firebase_storage.SettableMetadata(contentType: mimiType);
+      firebase_storage. TaskSnapshot uploadSnapshot = await ref.putData(image, metaData);
       await ref.putData(image); //now image will upload to firebase storage.
       //now need to get the download link of that image to save in fireStore
-      String downloadURL = await ref.getDownloadURL().then((value) {
+      String downloadURL = await uploadSnapshot.ref.getDownloadURL().then((value) {
         if (value.isNotEmpty) {
           url = value;
           service.saveCategory({
             'catName': catName.text,
-            'image':value,
+            'image':'$value.png',
             'active':true,
           }).then((value) {
             clear();
