@@ -17,3 +17,6 @@ class SaveImageToDbErrorState extends AppStates {
   SaveImageToDbErrorState(this.error);
 }
 class ClearSuccessState extends AppStates {}
+class OnCategoryNameChangeSuccessStte extends AppStates {}
+
+class CategorySelectedState extends AppStates {}
