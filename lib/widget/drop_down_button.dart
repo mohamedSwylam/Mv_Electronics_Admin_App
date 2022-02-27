@@ -9,28 +9,16 @@ class DropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseService service = FirebaseService();
-    return FutureBuilder<QuerySnapshot>(
-      future: service.categories.get(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        }
-        return DropdownButton(
-          value: AppCubit.get(context).selectedValue,
-          hint: const Text('Select Category'),
-          items: snapshot.data!.docs.map((e) {
-            return DropdownMenuItem<String>(
-              value: e['catName'],
-              child: Text(e['catName']),
-            );
-          }). toList(),
-          onChanged: (value)=>AppCubit.get(context).dropDownButtonChange(value),
+    return DropdownButton(
+      value: AppCubit.get(context).selectedValue,
+      hint: const Text('Select Category'),
+      items: AppCubit.get(context).snapshot!.docs.map((e) {
+        return DropdownMenuItem<String>(
+          value: e['catName'],
+          child: Text(e['catName']),
         );
-      },
+      }). toList(),
+      onChanged: (value)=>AppCubit.get(context).dropDownButtonChange(value),
     );
   }
 }

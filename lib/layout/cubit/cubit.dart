@@ -152,4 +152,12 @@ class AppCubit extends Cubit<AppStates> {
       });
     }
   }
+  QuerySnapshot? snapshot;
+  getCatlist(){
+    return service.categories.
+    get().then ((QuerySnapshot querySnapshot) {
+
+
+      });
+    }
 }

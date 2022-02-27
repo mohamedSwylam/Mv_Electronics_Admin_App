@@ -28,13 +28,14 @@ class MainCategoryScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.all(10),
                   child: const Text(
-                    'MainCategoryScreen',
+                    'Main Category Screen',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 36,
                     ),
                   ),
                 ),
+                cubit.snapshot==null ? Text("Loading.."):
                 DropDownButton(),
                 SizedBox(
                   height: 8,
@@ -88,8 +89,10 @@ class MainCategoryScreen extends StatelessWidget {
                       width: 10,
                     ),
                     ElevatedButton(
-                      onPressed: cubit.onPressSave(),
-                      child: Text(
+                      onPressed: (){
+                        cubit.onPressSave();
+                      },
+                      child: const Text(
                         '  Save  ',
                       ),
                     ),

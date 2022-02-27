@@ -59,10 +59,7 @@ class CategoryWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              height: 80,
+              height: 60,
               width: 80,
               child: Image.network(data['image']),
             ),
