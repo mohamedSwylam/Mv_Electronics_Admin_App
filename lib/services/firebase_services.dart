@@ -5,6 +5,8 @@ class FirebaseService {
       'categories');
   CollectionReference mainCat = FirebaseFirestore.instance.collection(
       'mainCategories');
+  CollectionReference subCat = FirebaseFirestore.instance.collection(
+      'subCategories');
 
   Future<void> saveCategory({CollectionReference? reference, Map<String,
       dynamic>? data, String? docName}) {

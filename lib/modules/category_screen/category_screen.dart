@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mv_admin_app/layout/cubit/cubit.dart';
 import 'package:mv_admin_app/layout/cubit/states.dart';
+import 'package:mv_admin_app/services/firebase_services.dart';
 import 'package:mv_admin_app/widget/categories_list.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class CategoryScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = AppCubit.get(context);
+        final FirebaseService service = FirebaseService();
         return Form(
           key: cubit.formKey,
           child: Column(
@@ -122,7 +124,7 @@ class CategoryScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10,),
-              CategoriesList(),
+              CategoriesList(reference: service.categories,),
             ],
           ),
         );

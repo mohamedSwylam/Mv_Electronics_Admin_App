@@ -5,11 +5,15 @@ import 'package:path/path.dart';
 import 'package:mime_type/mime_type.dart';
 
 class CategoriesList extends StatelessWidget {
+  final CollectionReference? reference;
+
+  const CategoriesList({Key? key, this.reference}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     FirebaseService service = FirebaseService();
     return StreamBuilder<QuerySnapshot>(
-      stream: service.categories.snapshots(),
+      stream: reference!.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -33,7 +37,7 @@ class CategoriesList extends StatelessWidget {
           itemCount: snapshot.data!.size,
           itemBuilder: (context, index) {
             var data = snapshot.data!.docs[index];
-            return CategoryWidget(data: data);
+            return CategoryWidget(data: data, reference: reference,);
           },
         );
       },
@@ -42,12 +46,16 @@ class CategoriesList extends StatelessWidget {
 }
 
 class CategoryWidget extends StatelessWidget {
-  const CategoryWidget({
+  final CollectionReference? reference;
+  CategoryWidget({
     Key? key,
     required this.data,
+    required this.reference,
   }) : super(key: key);
 
   final QueryDocumentSnapshot<Object?> data;
+  final FirebaseService service = FirebaseService();
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +71,7 @@ class CategoryWidget extends StatelessWidget {
               width: 80,
               child: Image.network(data['image']),
             ),
-            Text(data['catName']),
+            Text(reference==service.categories?data['catName']:data['subCatName']),
           ],
         ),
       ),
