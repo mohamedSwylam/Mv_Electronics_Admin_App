@@ -35,7 +35,6 @@ class MainCategoryScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                cubit.snapshot==null ? Text("Loading.."):
                 DropDownButton(),
                 SizedBox(
                   height: 8,
