@@ -20,3 +20,4 @@ class ClearSuccessState extends AppStates {}
 class OnCategoryNameChangeSuccessStte extends AppStates {}
 
 class CategorySelectedState extends AppStates {}
+class ShowAllCategoryState extends AppStates {}

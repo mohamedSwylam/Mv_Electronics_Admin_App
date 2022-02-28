@@ -132,7 +132,7 @@ class AppCubit extends Cubit<AppStates> {
 
   bool noCategorySelected = false;
 
-  onPressSave() {
+  addMainCat() {
     if (selectedValue == null) {
       noCategorySelected = true;
       emit(CategorySelectedState());
@@ -153,11 +153,14 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
   QuerySnapshot? snapshot;
-  getCatlist(){
+  getCatList(){
     return service.categories.
     get().then ((QuerySnapshot querySnapshot) {
-
-
+      snapshot=querySnapshot;
       });
+    }
+    showAllCategory(){
+      selectedValue=null;
+      emit(ShowAllCategoryState());
     }
 }

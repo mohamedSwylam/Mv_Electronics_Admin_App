@@ -15,6 +15,7 @@ import 'layout/cubit/states.dart';
 import 'modules/category_screen/category_screen.dart';
 import 'modules/dashboard_screen/dashboard_screen.dart';
 import 'modules/main_category_screen/main_category_screen.dart';
+import 'modules/sub_category_screen/cubit/cubit.dart';
 import 'modules/sub_category_screen/sub_category_screen.dart';
 
 void main()  async {
@@ -32,7 +33,10 @@ class MyApp extends StatelessWidget
     return  MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => AppCubit(),
+          create: (BuildContext context) => AppCubit()..getCatList(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => SubCatCubit(),
         ),
       ],
       child: BlocConsumer<AppCubit,AppStates>(

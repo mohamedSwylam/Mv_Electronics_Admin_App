@@ -6,6 +6,7 @@ import 'package:mv_admin_app/layout/cubit/cubit.dart';
 import 'package:mv_admin_app/layout/cubit/states.dart';
 import 'package:mv_admin_app/services/firebase_services.dart';
 import 'package:mv_admin_app/widget/drop_down_button.dart';
+import 'package:mv_admin_app/widget/main_category_list.dart';
 
 class MainCategoryScreen extends StatelessWidget {
   @override
@@ -28,13 +29,14 @@ class MainCategoryScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.all(10),
                   child: const Text(
-                    'Main Category Screen',
+                    'Main Category',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 36,
                     ),
                   ),
                 ),
+                cubit.snapshot==null ? const Text( 'Loading..') :
                 DropDownButton(),
                 SizedBox(
                   height: 8,
@@ -89,7 +91,7 @@ class MainCategoryScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: (){
-                        cubit.onPressSave();
+                        cubit.addMainCat();
                       },
                       child: const Text(
                         '  Save  ',
@@ -100,6 +102,19 @@ class MainCategoryScreen extends StatelessWidget {
                 const Divider(
                   color: Colors.grey,
                 ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.all(10),
+                  child: const Text(
+                    'Main Category List',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10,),
+                MainCategoriesList(),
               ],
             ),
           ),
