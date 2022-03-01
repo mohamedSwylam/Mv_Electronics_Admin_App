@@ -27,3 +27,6 @@ class OnCategoryNameChangeSuccessStte extends AppStates {}
 class CategorySelectedState extends AppStates {}
 
 class ShowAllCategoryState extends AppStates {}
+
+class GetSubCategoryListState extends AppStates {}
+

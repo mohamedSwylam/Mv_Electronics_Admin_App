@@ -9,6 +9,7 @@ import 'package:mv_admin_app/services/firebase_services.dart';
 import 'package:mv_admin_app/widget/categories_list.dart';
 import 'package:mv_admin_app/widget/drop_down_button.dart';
 import 'package:mv_admin_app/widget/main_category_list.dart';
+import 'package:mv_admin_app/widget/sub_category_list.dart';
 
 class SubCategoryScreen extends StatelessWidget {
   @override
@@ -73,16 +74,17 @@ class SubCategoryScreen extends StatelessWidget {
                       cubit.snapshot == null
                           ? const Text('Loading..')
                           : DropdownButton(
-                        value: cubit.selectedValue,
-                        hint: const Text('Select Category'),
-                        items: cubit.snapshot!.docs.map((e) {
-                          return DropdownMenuItem<String>(
-                            value: e['mainCategory'],
-                            child: Text(e['mainCategory']),
-                          );
-                        }).toList(),
-                        onChanged: (value) => cubit.dropDownButtonChange(value),
-                      ),
+                              value: cubit.selectedValue,
+                              hint: const Text('Select Category'),
+                              items: cubit.snapshot!.docs.map((e) {
+                                return DropdownMenuItem<String>(
+                                  value: e['mainCategory'],
+                                  child: Text(e['mainCategory']),
+                                );
+                              }).toList(),
+                              onChanged: (value) =>
+                                  cubit.dropDownButtonChange(value),
+                            ),
                       SizedBox(
                         height: 8,
                       ),
@@ -121,28 +123,30 @@ class SubCategoryScreen extends StatelessWidget {
                             },
                             child: Text(
                               'Cancel',
-                              style: TextStyle(color: Theme.of(context).primaryColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
                             ),
                             style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
+                                  MaterialStateProperty.all(Colors.white),
                               side: MaterialStateProperty.all(
-                                BorderSide(color: Theme.of(context).primaryColor),
+                                BorderSide(
+                                    color: Theme.of(context).primaryColor),
                               ),
                             ),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          if(cubit.image != null)
-                          ElevatedButton(
-                            onPressed: () {
-                              cubit.addSubCat();
-                            },
-                            child: const Text(
-                              '  Save  ',
+                          if (cubit.image != null)
+                            ElevatedButton(
+                              onPressed: () {
+                                cubit.addSubCat();
+                              },
+                              child: const Text(
+                                '  Save  ',
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ],
@@ -166,9 +170,7 @@ class SubCategoryScreen extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              CategoriesList(
-                reference: service.subCat,
-              ),
+              SubCategoriesList(),
             ],
           ),
         );

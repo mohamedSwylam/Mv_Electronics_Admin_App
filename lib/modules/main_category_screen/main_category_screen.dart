@@ -8,13 +8,16 @@ import 'package:mv_admin_app/services/firebase_services.dart';
 import 'package:mv_admin_app/widget/drop_down_button.dart';
 import 'package:mv_admin_app/widget/main_category_list.dart';
 
+import 'cubit/cubit.dart';
+import 'cubit/states.dart';
+
 class MainCategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
+    return BlocConsumer<MainCatCubit, MainCatStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = AppCubit.get(context);
+        var cubit = MainCatCubit.get(context);
         return Form(
           key: cubit.mainCatFormKey,
           child: Padding(
@@ -37,7 +40,17 @@ class MainCategoryScreen extends StatelessWidget {
                   ),
                 ),
                 cubit.snapshot==null ? const Text( 'Loading..') :
-                DropDownButton(),
+                DropdownButton(
+                  value: cubit.selectedValue,
+                  hint: const Text('Select Category'),
+                  items: cubit.snapshot!.docs.map((e) {
+                    return DropdownMenuItem<String>(
+                      value: e['catName'],
+                      child: Text(e['catName']),
+                    );
+                  }). toList(),
+                  onChanged: (value)=>cubit.dropDownButtonChange(value),
+                ),
                 SizedBox(
                   height: 8,
                 ),

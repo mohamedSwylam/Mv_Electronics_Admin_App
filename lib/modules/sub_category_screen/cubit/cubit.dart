@@ -115,6 +115,7 @@ class SubCatCubit extends Cubit<SubCatStates> {
     return service.mainCat.
     get().then ((QuerySnapshot querySnapshot) {
       snapshot=querySnapshot;
+      emit(GetSubCategoryListState());
     });
   }
   showAllCategory(){

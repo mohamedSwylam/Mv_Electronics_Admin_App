@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mv_admin_app/layout/cubit/cubit.dart';
+import 'package:mv_admin_app/modules/main_category_screen/cubit/cubit.dart';
 import 'package:mv_admin_app/services/firebase_services.dart';
 import 'package:mv_admin_app/widget/drop_down_button.dart';
 import 'package:path/path.dart';
@@ -10,19 +11,30 @@ class MainCategoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseService service = FirebaseService();
+    var cubit = MainCatCubit.get(context);
     return Column(
       children: [
-        AppCubit.get(context).snapshot == null
+        cubit.snapshot == null
             ? const Text('Loading..')
             : Row(
                 children: [
-                  DropDownButton(),
+                  DropdownButton(
+                    value: cubit.selectedValue,
+                    hint: const Text('Select Category'),
+                    items: cubit.snapshot!.docs.map((e) {
+                      return DropdownMenuItem<String>(
+                        value: e['catName'],
+                        child: Text(e['catName']),
+                      );
+                    }). toList(),
+                    onChanged: (value)=>cubit.dropDownButtonChange(value),
+                  ),
                   SizedBox(
                     width: 10,
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      AppCubit.get(context).showAllCategory();
+                      cubit.showAllCategory();
                     },
                     child: Text('Show All'),
                   ),
@@ -33,7 +45,7 @@ class MainCategoriesList extends StatelessWidget {
         ),
         StreamBuilder<QuerySnapshot>(
           stream: service.mainCat
-              .where('category', isEqualTo: AppCubit.get(context).selectedValue)
+              .where('category', isEqualTo: cubit.selectedValue)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

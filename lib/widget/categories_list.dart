@@ -20,10 +20,10 @@ class CategoriesList extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return LinearProgressIndicator();
+          return const LinearProgressIndicator();
         }
         if (snapshot.data!.size == 0) {
-          return Text("No Categories Addded");
+          return const Text("No Categories Addded");
         }
 
         return GridView.builder(
@@ -66,8 +66,9 @@ class CategoryWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const SizedBox(height: 10,),
             SizedBox(
-              height: 60,
+              height: 80,
               width: 80,
               child: Image.network(data['image']),
             ),

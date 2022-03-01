@@ -113,54 +113,5 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   // main category screen
-  Object? selectedValue;
 
-  void dropDownButtonChange(selectedCat) {
-    selectedValue = selectedCat;
-    noCategorySelected=false;
-    emit(OnCategoryNameChangeSuccessStte());
-  }
-
-  final TextEditingController mainCat = TextEditingController();
-  final mainCatFormKey = GlobalKey<FormState>();
-
-  clearMainCat() {
-    mainCat.clear();
-    selectedValue = null;
-    emit(ClearSuccessState());
-  }
-
-  bool noCategorySelected = false;
-
-  addMainCat() {
-    if (selectedValue == null) {
-      noCategorySelected = true;
-      emit(CategorySelectedState());
-      return;
-    }
-    if (mainCatFormKey.currentState!.validate()) {
-      EasyLoading.show();
-      service.saveCategory(
-          data: {
-            'category': selectedValue,
-            'mainCategory': mainCat.text,
-            'approved': true,
-          },
-          reference: service.mainCat,
-          docName: mainCat.text).then((value) {
-        EasyLoading.dismiss();
-      });
-    }
-  }
-  QuerySnapshot? snapshot;
-  getCatList(){
-    return service.categories.
-    get().then ((QuerySnapshot querySnapshot) {
-      snapshot=querySnapshot;
-      });
-    }
-    showAllCategory(){
-      snapshot=null;
-      emit(ShowAllCategoryState());
-    }
 }

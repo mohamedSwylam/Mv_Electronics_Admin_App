@@ -1,3 +1,4 @@
+/*
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mv_admin_app/layout/cubit/cubit.dart';
@@ -10,16 +11,17 @@ class DropDownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     FirebaseService service = FirebaseService();
     return DropdownButton(
-      value: AppCubit.get(context).selectedValue,
+      value: cubit.selectedValue,
       hint: const Text('Select Category'),
-      items: AppCubit.get(context).snapshot!.docs.map((e) {
+      items: cubit.snapshot!.docs.map((e) {
         return DropdownMenuItem<String>(
           value: e['catName'],
           child: Text(e['catName']),
         );
       }). toList(),
-      onChanged: (value)=>AppCubit.get(context).dropDownButtonChange(value),
+      onChanged: (value)=>cubit.dropDownButtonChange(value),
     );
   }
 }
 
+*/
