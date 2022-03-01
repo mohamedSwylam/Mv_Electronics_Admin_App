@@ -108,7 +108,7 @@ class SubCategoryWidget extends StatelessWidget {
               width: 80,
               child: Image.network(data['image']),
             ),
-            Text(data['subCatName']),
+            Text(data['subCatName'],maxLines: 1,overflow: TextOverflow.ellipsis,),
           ],
         ),
       ),
