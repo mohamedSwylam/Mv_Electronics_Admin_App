@@ -23,9 +23,10 @@ class SubCatCubit extends Cubit<SubCatStates> {
   final FirebaseService service = FirebaseService();
   final TextEditingController subCatName = TextEditingController();
   final TextEditingController mainCat = TextEditingController();
-  final mainCatFormKey = GlobalKey<FormState>();
+  final subCatFormKey = GlobalKey<FormState>();
   bool noCategorySelected = false;
   QuerySnapshot? snapshot;
+  Object? selectedValue;
 
   pickImage() async {
     FilePickerResult? result = await FilePicker.platform
@@ -90,7 +91,6 @@ class SubCatCubit extends Cubit<SubCatStates> {
     image = null;
     emit(ClearSuccessState());
   }
-  Object? selectedValue;
 
   void dropDownButtonChange(selectedCat) {
     selectedValue = selectedCat;
@@ -110,13 +110,13 @@ class SubCatCubit extends Cubit<SubCatStates> {
       emit(CategorySelectedState());
       return;
     }
-    if (mainCatFormKey.currentState!.validate()) {
+    if (subCatFormKey.currentState!.validate()) {
       EasyLoading.show();
       saveImageToDb();
     }
   }
   getSubCatList(){
-    return service.categories.
+    return service.mainCat.
     get().then ((QuerySnapshot querySnapshot) {
       snapshot=querySnapshot;
     });
