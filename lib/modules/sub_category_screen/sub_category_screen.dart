@@ -65,78 +65,82 @@ class SubCategoryScreen extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                cubit.snapshot == null
-                    ? const Text('Loading..')
-                    : DropdownButton(
-                        value: cubit.selectedValue,
-                        hint: const Text('Select Category'),
-                        items: AppCubit.get(context).snapshot!.docs.map((e) {
-                          return DropdownMenuItem<String>(
-                            value: e['mainCategory'],
-                            child: Text(e['mainCategory']),
-                          );
-                        }).toList(),
-                        onChanged: (value) =>
-                            cubit.dropDownButtonChange(value),
-                      ),
-                SizedBox(
-                  height: 8,
-                ),
-                if (cubit.noCategorySelected == null)
-                  Text(
-                    "No Main Category Selected",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                SizedBox(
-                  width: 200,
-                  child: Center(
-                    child: TextFormField(
-                      controller: cubit.subCatName,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter Sub Category Name';
-                        }
-                      },
-                      decoration: InputDecoration(
-                          label: Text('Enter Sub Catergory Name'),
-                          contentPadding: EdgeInsets.zero),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 10,
+                    cubit.snapshot == null
+                        ? const Text('Loading..')
+                        : DropdownButton(
+                      value: cubit.selectedValue,
+                      hint: const Text('Select Category'),
+                      items: AppCubit.get(context).snapshot!.docs.map((e) {
+                        return DropdownMenuItem<String>(
+                          value: e['mainCategory'],
+                          child: Text(e['mainCategory']),
+                        );
+                      }).toList(),
+                      onChanged: (value) => cubit.dropDownButtonChange(value),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        cubit.clear();
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    if (cubit.noCategorySelected == null)
+                      Text(
+                        "No Main Category Selected",
+                        style: TextStyle(color: Colors.red),
                       ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        side: MaterialStateProperty.all(
-                          BorderSide(color: Theme.of(context).primaryColor),
+                    SizedBox(
+                      width: 200,
+                      child: Center(
+                        child: TextFormField(
+                          controller: cubit.subCatName,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter Category Name';
+                            }
+                          },
+                          decoration: InputDecoration(
+                              label: Text('Enter Sub Catergory Name'),
+                              contentPadding: EdgeInsets.zero),
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 10,
+                      height: 20,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                         //cubit.addMainCat();
-                      },
-                      child: const Text(
-                        '  Save  ',
-                      ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            cubit.clear();
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(color: Theme.of(context).primaryColor),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                            side: MaterialStateProperty.all(
+                              BorderSide(color: Theme.of(context).primaryColor),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            //cubit.addMainCat();
+                          },
+                          child: const Text(
+                            '  Save  ',
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -156,8 +160,12 @@ class SubCategoryScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
-            CategoriesList(reference: service.subCat,),
+            SizedBox(
+              height: 10,
+            ),
+            CategoriesList(
+              reference: service.subCat,
+            ),
           ],
         );
       },

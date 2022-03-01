@@ -20,9 +20,12 @@ class SubCatCubit extends Cubit<SubCatStates> {
   dynamic image;
   String? fileName;
   String? url;
-  final formKey = GlobalKey<FormState>();
   final FirebaseService service = FirebaseService();
   final TextEditingController subCatName = TextEditingController();
+  final TextEditingController mainCat = TextEditingController();
+  final mainCatFormKey = GlobalKey<FormState>();
+  bool noCategorySelected = false;
+  QuerySnapshot? snapshot;
 
   pickImage() async {
     FilePickerResult? result = await FilePicker.platform
@@ -100,7 +103,6 @@ class SubCatCubit extends Cubit<SubCatStates> {
     emit(ClearSuccessState());
   }
 
-  bool noCategorySelected = false;
 
   addSubCat() {
     if (selectedValue == null) {
@@ -113,9 +115,8 @@ class SubCatCubit extends Cubit<SubCatStates> {
       saveImageToDb();
     }
   }
-  QuerySnapshot? snapshot;
-  getMainCatList(){
-    return service.mainCat.
+  getSubCatList(){
+    return service.categories.
     get().then ((QuerySnapshot querySnapshot) {
       snapshot=querySnapshot;
     });
@@ -124,6 +125,5 @@ class SubCatCubit extends Cubit<SubCatStates> {
     selectedValue=null;
     emit(ShowAllCategoryState());
   }
-  final TextEditingController mainCat = TextEditingController();
-  final mainCatFormKey = GlobalKey<FormState>();
+
 }

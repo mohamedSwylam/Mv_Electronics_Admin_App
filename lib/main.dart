@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget
           create: (BuildContext context) => AppCubit()..getCatList(),
         ),
         BlocProvider(
-          create: (BuildContext context) => SubCatCubit(),
+          create: (BuildContext context) => SubCatCubit()..getSubCatList(),
         ),
       ],
       child: BlocConsumer<AppCubit,AppStates>(

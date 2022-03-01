@@ -160,7 +160,7 @@ class AppCubit extends Cubit<AppStates> {
       });
     }
     showAllCategory(){
-      selectedValue=null;
+      snapshot=null;
       emit(ShowAllCategoryState());
     }
 }
