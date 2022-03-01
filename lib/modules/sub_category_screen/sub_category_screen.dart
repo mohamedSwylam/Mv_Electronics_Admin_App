@@ -137,7 +137,7 @@ class SubCategoryScreen extends StatelessWidget {
                           if(cubit.image != null)
                           ElevatedButton(
                             onPressed: () {
-                              //cubit.addMainCat();
+                              cubit.addSubCat();
                             },
                             child: const Text(
                               '  Save  ',

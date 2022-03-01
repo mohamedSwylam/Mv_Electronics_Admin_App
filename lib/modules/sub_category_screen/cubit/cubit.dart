@@ -97,11 +97,7 @@ class SubCatCubit extends Cubit<SubCatStates> {
     noCategorySelected=false;
     emit(OnCategoryNameChangeSuccessStte());
   }
-  clearMainCat() {
-    mainCat.clear();
-    selectedValue = null;
-    emit(ClearSuccessState());
-  }
+
 
 
   addSubCat() {
