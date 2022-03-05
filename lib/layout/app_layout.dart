@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-
-
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
@@ -42,6 +40,11 @@ class AppLayout extends StatelessWidget {
                   MenuItem(
                     title: 'Sub Category',
                     route: 'SubCategoryScreen',
+                  ),
+                  MenuItem(
+                    title: 'Vendor',
+                    route: 'VendorScreen',
+                    icon: Icons.group_add_outlined,
                   ),
                 ],
               ),

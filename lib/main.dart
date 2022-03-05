@@ -18,6 +18,8 @@ import 'modules/main_category_screen/cubit/cubit.dart';
 import 'modules/main_category_screen/main_category_screen.dart';
 import 'modules/sub_category_screen/cubit/cubit.dart';
 import 'modules/sub_category_screen/sub_category_screen.dart';
+import 'modules/vendor_screen/cubit/cubit.dart';
+import 'modules/vendor_screen/vendor_screen.dart';
 
 void main()  async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget
       providers: [
         BlocProvider(
           create: (BuildContext context) => AppCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => VendorCubit(),
         ),
         BlocProvider(
           create: (BuildContext context) => MainCatCubit()..getCatList(),
@@ -61,6 +66,7 @@ class MyApp extends StatelessWidget
                     'MainCategoryScreen' : (context) => MainCategoryScreen(),
                     'SubCategoryScreen' : (context) => SubCategoryScreen(),
                     'DashBoardScreen' : (context) => DashBoardScreen(),
+                    'VendorScreen' : (context) => VendorScreen(),
                     'AppLayout' : (context) => AppLayout(),
                   },
                   initialRoute: 'AppLayout',

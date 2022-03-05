@@ -14,6 +14,8 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:mv_admin_app/services/firebase_services.dart';
 import 'package:path/path.dart';
 
+import '../../modules/vendor_screen/vendor_screen.dart';
+
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
 
@@ -38,80 +40,85 @@ class AppCubit extends Cubit<AppStates> {
         selectorScreen = SubCategoryScreen();
         emit(ScreenSelectorState());
         break;
+      case 'VendorScreen':
+        selectorScreen = VendorScreen();
+        emit(ScreenSelectorState());
+        break;
     }
-  }
 
-  //// upload image
-  dynamic image;
-  String? fileName;
-  String? url;
-  final formKey = GlobalKey<FormState>();
-  final FirebaseService service = FirebaseService();
-  final TextEditingController catName = TextEditingController();
+}
 
-  pickImage() async {
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.image, allowMultiple: false)
-        .then((value) {
-      if (value != null) {
-        image = value.files.first.bytes;
-        fileName = value.files.first.name;
-        emit(PickedImageSuccessState());
-      } else {
-        //Failed to pick image. or user cancelled
-        print('Cancelled Or Failed');
+//// upload image
+dynamic image;
+String? fileName;
+String? url;
+final formKey = GlobalKey<FormState>();
+final FirebaseService service = FirebaseService();
+final TextEditingController catName = TextEditingController();
+
+pickImage() async {
+  FilePickerResult? result = await FilePicker.platform
+      .pickFiles(type: FileType.image, allowMultiple: false)
+      .then((value) {
+    if (value != null) {
+      image = value.files.first.bytes;
+      fileName = value.files.first.name;
+      emit(PickedImageSuccessState());
+    } else {
+      //Failed to pick image. or user cancelled
+      print('Cancelled Or Failed');
+    }
+  }).catchError((error) {
+    emit(PickedImageErrorState(error.toString()));
+  });
+}
+
+saveImageToDb() async {
+  EasyLoading.show();
+  var ref = firebase_storage.FirebaseStorage.instance
+      .ref('categoryImage/$fileName');
+  try {
+    String? mimiType = mime(
+      basename(fileName!),
+    );
+    var metaData = firebase_storage.SettableMetadata(contentType: mimiType);
+    firebase_storage.TaskSnapshot uploadSnapshot =
+    await ref.putData(image, metaData);
+    await ref.putData(image); //now image will upload to firebase storage.
+    //now need to get the download link of that image to save in fireStore
+    String downloadURL =
+    await uploadSnapshot.ref.getDownloadURL().then((value) {
+      if (value.isNotEmpty) {
+        url = value;
+        service.saveCategory(
+          data: {
+            'catName': catName.text,
+            'image': '$value.png',
+            'active': true,
+          },
+          docName: catName.text,
+          reference: service.categories,
+        ).then((value) {
+          clear();
+          EasyLoading.dismiss();
+        });
       }
-    }).catchError((error) {
-      emit(PickedImageErrorState(error.toString()));
+      emit(SaveImageToDbSuccessState());
+      //save data to firestore
+      return value;
     });
+  } on FirebaseException catch (e) {
+    EasyLoading.dismiss();
+    emit(SaveImageToDbErrorState(e.toString()));
   }
+}
 
-  saveImageToDb() async {
-    EasyLoading.show();
-    var ref = firebase_storage.FirebaseStorage.instance
-        .ref('categoryImage/$fileName');
-    try {
-      String? mimiType = mime(
-        basename(fileName!),
-      );
-      var metaData = firebase_storage.SettableMetadata(contentType: mimiType);
-      firebase_storage.TaskSnapshot uploadSnapshot =
-      await ref.putData(image, metaData);
-      await ref.putData(image); //now image will upload to firebase storage.
-      //now need to get the download link of that image to save in fireStore
-      String downloadURL =
-      await uploadSnapshot.ref.getDownloadURL().then((value) {
-        if (value.isNotEmpty) {
-          url = value;
-          service.saveCategory(
-            data: {
-              'catName': catName.text,
-              'image': '$value.png',
-              'active': true,
-            },
-            docName: catName.text,
-            reference: service.categories,
-          ).then((value) {
-            clear();
-            EasyLoading.dismiss();
-          });
-        }
-        emit(SaveImageToDbSuccessState());
-        //save data to firestore
-        return value;
-      });
-    } on FirebaseException catch (e) {
-      EasyLoading.dismiss();
-      emit(SaveImageToDbErrorState(e.toString()));
-    }
-  }
+clear() {
+  catName.clear();
+  image = null;
+  emit(ClearSuccessState());
+}
 
-  clear() {
-    catName.clear();
-    image = null;
-    emit(ClearSuccessState());
-  }
-
-  // main category screen
+// main category screen
 
 }
