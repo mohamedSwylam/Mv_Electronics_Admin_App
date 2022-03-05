@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mv_admin_app/services/firebase_services.dart';
@@ -9,15 +10,15 @@ import 'package:mime_type/mime_type.dart';
 import '../../models/vendor_model.dart';
 
 class VendorsList extends StatelessWidget {
-  final CollectionReference? reference;
+  final bool? approveStatus;
 
-  const VendorsList({Key? key, this.reference}) : super(key: key);
+  const VendorsList({Key? key,this.approveStatus}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     FirebaseService service = FirebaseService();
     return StreamBuilder<QuerySnapshot>(
-      stream: service.vendor.snapshots(),
+      stream: service.vendor.where('approved',isEqualTo: approveStatus).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text('Something went wrong'));
@@ -27,7 +28,7 @@ class VendorsList extends StatelessWidget {
           return const LinearProgressIndicator();
         }
         if (snapshot.data!.size == 0) {
-          return const Text("No Categories Addded");
+          return Center(child: const Text("No Vendor Added",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22,)));
         }
         return ListView.builder(
             shrinkWrap: true,
@@ -118,41 +119,3 @@ class VendorsList extends StatelessWidget {
   }
 }
 
-class CategoryWidget extends StatelessWidget {
-  final CollectionReference? reference;
-
-  CategoryWidget({
-    Key? key,
-    required this.data,
-    required this.reference,
-  }) : super(key: key);
-
-  final QueryDocumentSnapshot<Object?> data;
-  final FirebaseService service = FirebaseService();
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.grey.shade400,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 80,
-              width: 80,
-              child: Image.network(data['image']),
-            ),
-            Text(reference == service.categories
-                ? data['catName']
-                : data['subCatName']),
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -60,7 +60,7 @@ class VendorScreen extends StatelessWidget {
                                   : Colors.grey.shade500,
                             ),
                           ),
-                          child: Text('Rejected'),
+                          child: Text('Not Approved'),
                           onPressed: () {
                             cubit.selectRejected();
                           },
@@ -99,7 +99,9 @@ class VendorScreen extends StatelessWidget {
                   rowHeader(flex: 1, text: 'VIEW MORE'),
                 ],
               ),
-              VendorsList(),
+              VendorsList(
+                approveStatus: cubit.selectedButton,
+              ),
             ],
           ),
         );
